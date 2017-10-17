@@ -1,0 +1,12 @@
+Small hexdump utility that can also do reverse hexdumps.
+
+hex [-r] [inputFile] [-o outputFile]
+    -h         : this help
+    -r         : reverse hexdump (read hex and write binary)
+    inputFile  : file to read,  default is stdin
+    outputFile : file to write, default is stdout
+
+In reverse mode, input should be a sequence of hexadecimal numbers
+smaller than 256. A semicolon starts a comment to the end of the
+line.
+
