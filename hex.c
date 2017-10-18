@@ -82,11 +82,11 @@ void bin2text(FILE*fin, FILE*fout) {
                     } else {
                         fputc(accu, fout);
                         accu=0;
-                        if (buffer[i]==';') 
+                        if (buffer[i]==';')  {
                             state=COMMENT_ST;
-                        else if (isspace(buffer[i]))
+                        } else if (isspace(buffer[i])) {
                             state=CLEAN_ST;
-                        else {
+                        } else {
                             parse_error(line);
                         }
                         accu=0;
@@ -94,7 +94,9 @@ void bin2text(FILE*fin, FILE*fout) {
                     break;
                 default: break;
             }
-            if (buffer[i]=='\n') line++;
+            if (buffer[i]=='\n') {
+                line++;
+            }
         }
         if (feof(fin)) break;
     }
@@ -104,7 +106,7 @@ void bin2text(FILE*fin, FILE*fout) {
 }
 
 void usage_error(void) {
-    fprintf(stderr,"hex [-r] [inputFile] [-o outputFile]\n");
+    fprintf(stderr,"hex [-r] [-h] [inputFile] [-o outputFile]\n");
     fprintf(stderr,"    -h         : this help\n");
     fprintf(stderr,"    -r         : reverse hexdump (read hex and write binary)\n");
     fprintf(stderr,"    inputFile  : file to read,  default is stdin\n");
@@ -136,7 +138,7 @@ int main(int argc, char ** argv) {
     else {
     fin = fopen(argv[infileidx],"rb");
         if (fin == NULL) {
-            fprintf(stderr,"hex: could not open file\n");
+            fprintf(stderr,"hex: could not open file %s\n", argv[infileidx]);
             return EXIT_FAILURE;
         }
     }
@@ -145,7 +147,7 @@ int main(int argc, char ** argv) {
     else {
         fout = fopen(argv[outfileidx],"wb");
         if (fout == NULL) {
-            fprintf(stderr,"hex: could not open output file\n");
+            fprintf(stderr,"hex: could not open file %s\n", argv[outfileidx]);
             exit(EXIT_FAILURE);
         }
     }
