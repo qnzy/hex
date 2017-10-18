@@ -1,16 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdint.h>
 #include <ctype.h>
 
 #define BUFFERSIZE 16
-uint8_t buffer[BUFFERSIZE];
+unsigned char buffer[BUFFERSIZE];
 
 void text2bin(FILE*fin, FILE*fout) {
     size_t bytes_read=0;
     unsigned int i;
-    while((bytes_read = fread(buffer, sizeof(uint8_t), BUFFERSIZE, fin))>0) {
+    while((bytes_read = fread(buffer, sizeof(unsigned char), BUFFERSIZE, fin))>0) {
         for (i=0; i<bytes_read; i++)
             fprintf(fout, "%02x ", buffer[i]);
         for (; i<BUFFERSIZE;i++)
@@ -50,7 +49,7 @@ void bin2text(FILE*fin, FILE*fout) {
 #define NUM_ST     1
 #define COMMENT_ST 2
     int state=CLEAN_ST;
-    while((bytes_read = fread(buffer, sizeof(uint8_t), BUFFERSIZE, fin))>0) {
+    while((bytes_read = fread(buffer, sizeof(unsigned char), BUFFERSIZE, fin))>0) {
         for (i=0; i<bytes_read; i++) {
             switch(state) {
                 case CLEAN_ST: 
