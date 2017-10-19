@@ -6,7 +6,7 @@
 #define BUFFERSIZE 16
 unsigned char buffer[BUFFERSIZE];
 
-void text2bin(FILE*fin, FILE*fout) {
+void bin2text(FILE*fin, FILE*fout) {
     size_t bytes_read=0;
     unsigned int i;
     while((bytes_read = fread(buffer, sizeof(unsigned char), BUFFERSIZE, fin))>0) {
@@ -40,7 +40,7 @@ void parse_error(int line) {
     exit(EXIT_FAILURE);
 }
 
-void bin2text(FILE*fin, FILE*fout) {
+void text2bin(FILE*fin, FILE*fout) {
     size_t bytes_read=0;
     int i;
     int accu=0;
@@ -151,8 +151,8 @@ int main(int argc, char ** argv) {
             exit(EXIT_FAILURE);
         }
     }
-    if (reverse) bin2text(fin, fout);
-    else         text2bin(fin, fout);
+    if (reverse) text2bin(fin, fout);
+    else         bin2text(fin, fout);
     fclose(fin);
     fclose(fout);
     return EXIT_SUCCESS;
