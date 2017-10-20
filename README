@@ -1,6 +1,6 @@
 Small hexdump utility that can also do reverse hexdumps.
 
-hex [-r] [inputFile] [-o outputFile]
+hex [-r] [-h] [inputFile] [-o outputFile]
     -h         : this help
     -r         : reverse hexdump (read hex and write binary)
     inputFile  : file to read,  default is stdin
