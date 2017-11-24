@@ -10,3 +10,5 @@ In reverse mode, input should be a sequence of hexadecimal numbers
 smaller than 256. A semicolon starts a comment to the end of the
 line.
 
+(I've written this for fun and it works well enough. For a more 
+mature/powerful tool you might want to look at xxd).
