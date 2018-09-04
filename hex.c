@@ -148,7 +148,7 @@ int main(int argc, char ** argv) {
         fout = fopen(argv[outfileidx],"wb");
         if (fout == NULL) {
             fprintf(stderr,"hex: could not open file %s\n", argv[outfileidx]);
-            exit(EXIT_FAILURE);
+            return EXIT_FAILURE;
         }
     }
     if (reverse) text2bin(fin, fout);
