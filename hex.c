@@ -1,6 +1,5 @@
 /*
  * hex: simple hex dump / reverse hex dump utility
- * yek, 2017
  * public domain / CC0
  * */
 #include <stdio.h>
