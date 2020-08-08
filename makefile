@@ -2,7 +2,7 @@ CC = gcc
 CFLAGS = -Wall -Wextra -Werror -pedantic
 
 hex: hex.c
-	$(CC) -o hex hex.c $(CLFAGS)
+	$(CC) $(CFLAGS) -o hex hex.c
 
 lint:
 	clang-tidy -checks="*" -header-filter=".*" *.c
