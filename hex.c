@@ -2,10 +2,10 @@
  * hex: simple hex dump / reverse hex dump utility
  * public domain / CC0
  * */
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
 
 #define BUFFERSIZE 16
 unsigned char buffer[BUFFERSIZE];
@@ -14,29 +14,35 @@ void bin2text(FILE*fin, FILE*fout) {
     size_t bytes_read=0;
     unsigned int i;
     while((bytes_read = fread(buffer, sizeof(unsigned char), BUFFERSIZE, fin))>0) {
-        for (i=0; i<bytes_read; i++)
+        for (i=0; i<bytes_read; i++) {
             fprintf(fout, "%02x ", buffer[i]);
-        for (; i<BUFFERSIZE;i++)
+        }
+        for (; i<BUFFERSIZE;i++) {
             fprintf(fout, "   ");
+        }
         fprintf(fout, " ; ");
         for (i=0; i<bytes_read; i++) {
-            if (isprint(buffer[i]))
+            if (isprint(buffer[i])) {
                 fprintf(fout, "%c", buffer[i]);
-            else
+            } else {
                 fprintf(fout, ".");
+            }
         }
         fprintf(fout, "\n");
-        if (feof(fin)) break;
+        if (feof(fin)) {
+            break;
+        }
     }
 }
 
 int decode_nibble(char c) {
-    if (c>='0' && c<='9')
+    if (c>='0' && c<='9') {
         return c-'0';
-    else if (c>='a' && c <= 'f')
+    } 
+    if (c>='a' && c <= 'f') {
         return c-'a'+10;
-    else
-        return c-'A'+10;
+    }
+    return c-'A'+10;
 }
 
 void parse_error(int line) {
@@ -46,7 +52,7 @@ void parse_error(int line) {
 
 void text2bin(FILE*fin, FILE*fout) {
     size_t bytes_read=0;
-    int i;
+    unsigned int i;
     int accu=0;
     int line=1;
 #define CLEAN_ST   0
@@ -82,10 +88,11 @@ void text2bin(FILE*fin, FILE*fout) {
                         if (accu>255) {
                             parse_error(line);
                         }
-                        else state=NUM_ST;
+                        else {
+                            state=NUM_ST;
+                        }
                     } else {
                         fputc(accu, fout);
-                        accu=0;
                         if (buffer[i]==';')  {
                             state=COMMENT_ST;
                         } else if (isspace(buffer[i])) {
@@ -102,7 +109,9 @@ void text2bin(FILE*fin, FILE*fout) {
                 line++;
             }
         }
-        if (feof(fin)) break;
+        if (feof(fin)) {
+            break;
+        }
     }
     if (state==NUM_ST) {
         fputc(accu, fout);
@@ -126,19 +135,28 @@ int main(int argc, char ** argv) {
     int outfileidx=-1;
     int i;
     for (i=1; i<argc; i++)  {
-        if (!strcmp(argv[i], "-r")) reverse=1;
-        else if (!strcmp(argv[i], "-h")) usage_error();
-        else if (!strcmp(argv[i], "-o")) {
-                if (i<argc-1) outfileidx=++i;
-                else          usage_error();
+        if (!strcmp(argv[i], "-r")) {
+            reverse=1;
+        } else if (!strcmp(argv[i], "-h")) {
+            usage_error();
+        } else if (!strcmp(argv[i], "-o")) {
+                if (i<argc-1) {
+                    outfileidx=++i;
+                } else {
+                    usage_error();
+                }
         }
         else {
-            if (infileidx==-1) infileidx=i;
-            else               usage_error();
+            if (infileidx==-1) {
+                infileidx=i;
+            } else {
+                usage_error();
+            }
         }
     }
-    if (infileidx==-1) 
+    if (infileidx==-1) {
         fin=stdin;
+    }
     else {
     fin = fopen(argv[infileidx],"rb");
         if (fin == NULL) {
@@ -146,17 +164,20 @@ int main(int argc, char ** argv) {
             return EXIT_FAILURE;
         }
     }
-    if (outfileidx==-1)
+    if (outfileidx==-1) {
         fout=stdout;
-    else {
+    } else {
         fout = fopen(argv[outfileidx],"wb");
         if (fout == NULL) {
             fprintf(stderr,"hex: could not open file %s\n", argv[outfileidx]);
             return EXIT_FAILURE;
         }
     }
-    if (reverse) text2bin(fin, fout);
-    else         bin2text(fin, fout);
+    if (reverse) { 
+        text2bin(fin, fout);
+    } else {
+        bin2text(fin, fout);
+    }
     fclose(fin);
     fclose(fout);
     return EXIT_SUCCESS;
